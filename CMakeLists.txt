@@ -12,7 +12,13 @@ endif()
 project ("Puzzels")
 
 # Add source to this project's executable.
-add_executable (Puzzels  "Puzzels.h")
+add_executable (Puzzels "src/main.cpp")
+
+# Указываем где искать заголовки
+target_include_directories(Puzzels PRIVATE
+    ${CMAKE_SOURCE_DIR}/headers
+    ${CMAKE_SOURCE_DIR}/src    
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Puzzels PROPERTY CXX_STANDARD 20)
