@@ -19,6 +19,27 @@ int main() {
 		}
 		std::cout << std::endl;
 	}
-	int island = puzzles::island(map);
-	std::cout << "------------" << island << std::endl;
+	int area = puzzles::maxSquareAreaOpt(map);
+	std::cout << "------------" << area << std::endl;
+
+	auto v = puzzles::hangarHeights(map);
+	for (size_t i = 0; i != v.size(); ++i) {
+		for (size_t j = 0; j != v.size(); ++j) {
+			std::cout << v[i][j] << "  ";
+
+		}
+		std::cout << std::endl;
+	}
+	std::vector<int> line = {1, 2, 3, 2, 4, 3, 2, 3, 1, 1};
+	auto res = puzzles::leftEdges(line);
+	for (auto& item : res) {
+		std::cout << item << " ";
+	}
+	std::cout << std::endl;
+
+	res = puzzles::rightEdges(line);
+	for (auto& item : res) {
+		std::cout << item << " ";
+	}
+	std::cout << std::endl;
 }
