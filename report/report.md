@@ -19,12 +19,12 @@
 5. [**Сарай (наивная версия O(N⁴))**](./tasks.md#сарай)  
    `int maxSquareArea(const std::vector<std::vector<int>>& map)`
 
-6.) **Подзадачи (этапы 2 и 3):** 
+- **Подзадачи (этапы 2 и 3):** 
 - [***Длина сарая***](./tasks.md#длина) 
 `std::vector<std::vector<int>> hangarHeights(const std::vector<std::vector<int>>& map)`
 - [***Ширина сарая***](./tasks.md#ширина)
 `std::vector<int> leftEdges(const std::vector<int>& line)`,`std::vector<int> rightEdges(const std::vector<int>& line)`
-<br>
+
 6. [**Сарай (оптимизированная версия)**](./tasks.md#большой-сарай)  
    `int maxSquareAreaOpt(const std::vector<std::vector<int>>& map)`
 - Для вызова функций по задачам 5 и 6 с исходными данными, соответствующими условиям задачи (размеры матрицы, количество и координаты строений) сделана обертка `int hangarAdapter(int n, int m, int t, const std::vector<std::pair<int, int>>& coords, 
