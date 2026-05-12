@@ -1,45 +1,67 @@
 #include <iostream>
-#include "short_puzzels.cpp"
+#include "short_puzzles.h"
 #include <vector>
+#include <test.h>
 
 int main() {
 	
-	auto x = puzzles::GCD(63, 14);
-	std::cout << "--------" << x << std::endl;
+	setlocale(LC_ALL, "Russian");
 
-	std::string source = "4/24+2/16";
-	auto y = puzzles::combinePeas(source);
-	std::cout << "---------------" << y << std::endl;
+	//1. Задачка про горох
+	std::cout << "\n1. Раз горох, два горох" << "\n";
 
-	std::vector<std::vector<int>> map = { {0, 1, 1, 0}, {0, 1, 0, 0}, {1, 0, 1, 1}, {0, 1, 1, 0} };
-	for (size_t i = 0; i != map.size(); ++i) {
-		for (size_t j = 0; j != map.size(); ++j) {
-			std::cout << map[i][j] << "  ";
+	Test<std::string, const std::string&> test_peas(puzzles::combinePeas, "combinePeasTests", 1);
+	test_peas.run();
+	std::cout << "\n-------------------------------------------------\n";
 
-		}
-		std::cout << std::endl;
-	}
-	int area = puzzles::maxSquareAreaOpt(map);
-	std::cout << "------------" << area << std::endl;
+	//2. Задачка про елочку
+	std::cout << "\n2. Елочка программиста" << "\n";	
+	Test<int, size_t, std::vector<int>&> test_xmasTree(puzzles::maxGarland, "xmasTreeTests", 1);
+	test_xmasTree.run();
+	std::cout << "\n-------------------------------------------------\n";
 
-	auto v = puzzles::hangarHeights(map);
-	for (size_t i = 0; i != v.size(); ++i) {
-		for (size_t j = 0; j != v.size(); ++j) {
-			std::cout << v[i][j] << "  ";
+	//3. Пятью восемь
+	std::cout << "\n3. Пятью восемь" << "\n";	
+	Test<uint64_t, uint32_t> test_countNoThree(puzzles::countNoThreeInRow, "FiveEightTests", 1);
+	test_countNoThree.run();
+	std::cout << "\n-------------------------------------------------\n";
 
-		}
-		std::cout << std::endl;
-	}
-	std::vector<int> line = {1, 2, 3, 2, 4, 3, 2, 3, 1, 1};
-	auto res = puzzles::leftEdges(line);
-	for (auto& item : res) {
-		std::cout << item << " ";
-	}
-	std::cout << std::endl;
+	//4. Большой остров 
+	std::cout << "\n4. Большой остров" << "\n";
+	auto islandsWrapper = [](int, std::vector<std::vector<int>> map) {
+		return puzzles::countIslands(map);
+		};
+	Test<int, int, std::vector<std::vector<int>>> test_islands(
+		islandsWrapper,
+		"Island",
+		1  // показываем только первую строку (размер)
+	);
+	test_islands.run();
+	std::cout << "\n-------------------------------------------------\n";
 
-	res = puzzles::rightEdges(line);
-	for (auto& item : res) {
-		std::cout << item << " ";
-	}
-	std::cout << std::endl;
+	// Сарай O(N^4) — тупой перебор	
+	auto hangarBrute = [](int n, int m, int t, const std::vector<std::pair<int, int>>& coords) {
+		return puzzles::hangarAdapter(n, m, t, coords, puzzles::maxSquareArea);
+		};
+	std::cout << "\n5. Сарай (тупая версия)" << "\n";
+	Test<int, int, int, int, std::vector<std::pair<int, int>>> test_hangarBrute(
+		hangarBrute,
+		"Hangar",
+		2  // показываем первые 2 аргумента: N M и T
+	);
+	test_hangarBrute.run();
+	std::cout << "\n-------------------------------------------------\n";
+	// Сарай оптимизированная версия
+	auto hangarOpt = [](int n, int m, int t, const std::vector<std::pair<int, int>>& coords) {
+		return puzzles::hangarAdapter(n, m, t, coords, puzzles::maxSquareAreaOpt);
+		};
+	std::cout << "\n6. Сарай (оптимизированная)" << "\n";
+	Test<int, int, int, int, std::vector<std::pair<int, int>>> test_hangarOpt(
+		hangarOpt,
+		"Hangar",
+		2
+	);
+	test_hangarOpt.run();
+	
+	return 0;
 }

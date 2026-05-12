@@ -12,13 +12,23 @@ endif()
 project ("Puzzels")
 
 # Add source to this project's executable.
-add_executable (Puzzels "src/main.cpp")
+add_executable (Puzzels "src/main.cpp" "src/short_puzzles.cpp" "headers/test.h")
 
 # Указываем где искать заголовки
 target_include_directories(Puzzels PRIVATE
     ${CMAKE_SOURCE_DIR}/headers
     ${CMAKE_SOURCE_DIR}/src    
 )
+
+# Опция для указания пути к тестам
+set(TEST_DIR "${CMAKE_SOURCE_DIR}/Tests" CACHE PATH "Path to test files")
+
+# Копируем тесты в build directory
+file(COPY ${TEST_DIR} DESTINATION ${CMAKE_BINARY_DIR})
+
+# Передаем путь к тестам в код
+target_compile_definitions(Puzzels PRIVATE 
+    TEST_DIR="${CMAKE_BINARY_DIR}/Tests")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Puzzels PROPERTY CXX_STANDARD 20)

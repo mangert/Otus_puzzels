@@ -1,12 +1,11 @@
 ﻿#include <iostream>
-#include <vector>
 #include <exception>
-#include <string>
 #include <stack>
+#include "short_puzzles.h"
 
 namespace puzzles {
-    namespace {       
-        
+    namespace { //вспомогательные функции
+
         //-------- Служебные функции для задачки про горох ------//
         //проверка на четность (для НОД)
         bool isEven(uint64_t n) {
@@ -113,9 +112,7 @@ namespace puzzles {
                 + floodFill(x, y + 1, n, map)  // вниз
                 + floodFill(x - 1, y, n, map)  // влево
                 + floodFill(x + 1, y, n, map); // вправо
-        }
-
-        //-------- Служебные функции для задачки про сараи ------//
+        }        
             
     } //anonymos namespace
 
@@ -333,6 +330,23 @@ namespace puzzles {
         }
 
         return maxArea;
+    }
+
+    //обертка для сарая (создает матрицу и вызывает заданную версию расчета площади)
+    int hangarAdapter(int n, int m, int t, const std::vector<std::pair<int, int>>& coords,
+        std::function<int(const std::vector<std::vector<int>>&)> areaFunc) {
+        // Создаём матрицу N x M, заполненную нулями
+        std::vector<std::vector<int>> matrix(n, std::vector<int>(m, 0));
+
+        // Ставим 1 в местах построек
+        for (const auto& [x, y] : coords) {
+            if (x >= 0 && x < n && y >= 0 && y < m) {
+                matrix[x][y] = 1;
+            }
+        }
+
+        // Вызываем нужную реализацию
+        return areaFunc(matrix);
     }
 
 } //puzzles
